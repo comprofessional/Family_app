@@ -1,37 +1,31 @@
-# app/app.py
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template
 import mysql.connector
-import os
 
 app = Flask(__name__)
 
-# MySQL connection
 def get_db_connection():
-    return mysql.connector.connect(
-        host=os.getenv("MYSQL_HOST"),
-        user=os.getenv("MYSQL_USER"),
-        password=os.getenv("MYSQL_PASSWORD"),
-        database=os.getenv("MYSQL_DATABASE")
+    connection = mysql.connector.connect(
+        host="db",
+        user="your_mysql_user",
+        password="your_mysql_password",
+        database="your_mysql_database"
     )
+    return connection
 
-@app.route("/", methods=["GET", "POST"])
+@app.route('/')
 def index():
-    if request.method == "POST":
-        family_member_name = request.form.get("name")
-        relation = request.form.get("relation")
-        
-        # Insert into MySQL database
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO family (name, relation) VALUES (%s, %s)", (family_member_name, relation))
-        conn.commit()
-        cursor.close()
-        conn.close()
-        
-        return redirect("/")
-    
-    return render_template("index.html")
+    return "Welcome to the Family Database!"
+
+@app.route('/family')
+def family():
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM family")
+    family_members = cursor.fetchall()
+    cursor.close()
+    connection.close()
+    return render_template('family.html', family_members=family_members)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host='0.0.0.0')
 
