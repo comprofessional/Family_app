@@ -15,6 +15,13 @@
         <input type="text" id="relation" name="relation" required><br><br>
         <input type="submit" value="Submit">
     </form>
+
+    <h2>Family Members</h2>
+    <ul>
+        {% for member in family_members %}
+            <li>{{ member[0] }} - {{ member[1] }}</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
 
