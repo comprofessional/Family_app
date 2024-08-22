@@ -1,0 +1,18 @@
+<!-- Place this in your Flask app's templates directory as 'family.html' -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Members</title>
+</head>
+<body>
+    <h1>Family Members</h1>
+    <ul>
+        {% for member in family_members %}
+            <li>{{ member['name'] }} - {{ member['relation'] }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
