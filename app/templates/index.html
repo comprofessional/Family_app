@@ -1,0 +1,27 @@
+<!-- app/templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family App</title>
+</head>
+<body>
+    <h1>Enter Family Member Details</h1>
+    <form method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="relation">Relation:</label>
+        <input type="text" id="relation" name="relation" required><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <h2>Family Members</h2>
+    <ul>
+        {% for member in family_members %}
+            <li>{{ member[0] }} - {{ member[1] }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
