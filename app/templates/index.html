@@ -16,12 +16,19 @@
         <input type="submit" value="Submit">
     </form>
 
-    <h2>Family Members</h2>
-    <ul>
-        {% for member in family_members %}
-            <li>{{ member[0] }} - {{ member[1] }}</li>
-        {% endfor %}
-    </ul>
+    <h2>View Family Members</h2>
+    <form method="GET" action="/show">
+        <input type="submit" value="Show Family Members">
+    </form>
+
+    {% if family_members %}
+        <h3>Family Members List</h3>
+        <ul>
+            {% for member in family_members %}
+                <li>{{ member[0] }} - {{ member[1] }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 </body>
 </html>
 
