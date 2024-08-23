@@ -16,26 +16,31 @@ def get_db_connection():
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-
     if request.method == "POST":
         family_member_name = request.form.get("name")
         relation = request.form.get("relation")
 
         # Insert into MySQL database
+        conn = get_db_connection()
+        cursor = conn.cursor()
         cursor.execute("INSERT INTO family (name, relation) VALUES (%s, %s)", (family_member_name, relation))
         conn.commit()
+        cursor.close()
+        conn.close()
 
         return redirect("/")
 
-    # Retrieve family members from the database
+    return render_template("index.html")
+
+@app.route("/show", methods=["GET"])
+def show_family_members():
+    conn = get_db_connection()
+    cursor = conn.cursor()
     cursor.execute("SELECT name, relation FROM family")
     family_members = cursor.fetchall()
-
     cursor.close()
     conn.close()
-
+    
     return render_template("index.html", family_members=family_members)
 
 if __name__ == "__main__":
